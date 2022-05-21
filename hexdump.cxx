@@ -2,28 +2,13 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <vector>
+#include <bitset>
 
 using std::cout; using std::cin;
 using std::string; using std::hex;
 using std::stringstream; using std::endl;
-
-
-//void hexdump()
-//{
-//	char repTmp;
-//	char buffer[MAXBUFLEN]
-//
-//	while (buffer > 0){
-//		std::get(
-//		printf("> %08X\n", buffer);
-//		
-//		if (!isprint(buffer)){
-//			repTmp = '.';
-//		} else{
-//			repTmp = *hTmp;
-//		}
-//		printf(repTmp);
-//}
+using std::bitset;
 
 int ascii_hexdump()
 {
@@ -35,7 +20,7 @@ int ascii_hexdump()
 	if (file.is_open()) {
 		char chara[3];
 		while (!file.eof()) {
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; sizeof(chara); i++) {
 				chara[i] = file.get();
 				printf("%0X", chara[i]);
 			}
@@ -46,32 +31,32 @@ int ascii_hexdump()
 	else {
 		cout << "File couldn't be open or doesn't exist\n";
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 int binary_hexdump()
 {
-	cout << "modes work!";
-//	std::ifstream file;
-//	string filename;
-//		
-//	std::getline(cin, filename);
-//	file.open(filename, std::ios::binary);
-//	if (file.is_open()) {
-//		char tmpRep;
-//		while (!file.eof()) {
-//			for (int i = 0; i < 4; i++) {
-//				chara[i] = file.get();
-//				printf("%0lX", chara[i]);
-//			}
-//			cout << " ";
-//			//printf(chara);
-//		}
-//	}
-//	else {
-//		cout << "File couldn't be open or doesn't exist\n";
-//	}
-	return 0;
+	std::ifstream file;
+	string filename;
+
+	cout << "Enter the file's name > "; cin >> filename;
+	file.open(filename, std::ios::in);
+	if (file.is_open()) {
+		char chara[3];
+		while (!file.eof()) {
+			for (int i = 0; i < 4; i++) {
+				chara[i] = file.get();
+				bitset<8> bsh(chara[i]); 
+				printf("%0X", bsh[i]);
+			}
+			cout << " ";
+			//printf(chara);
+		}
+	}
+	else {
+		cout << "File couldn't be open or doesn't exist\n";
+	}
+	return EXIT_SUCCESS;
 }
 
 int main()
@@ -96,7 +81,6 @@ int main()
 			default:
 				cout << "Mode doesn't exist" << endl;
 		}
-
 	cout << "Exit with success!" << endl;
 	return 0;
 	}
